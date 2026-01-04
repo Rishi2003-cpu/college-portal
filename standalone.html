@@ -1,0 +1,852 @@
+1280<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Portal - Student Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #f72585;
+            --success-color: #4cc9f0;
+            --warning-color: #f77f00;
+            --danger-color: #e63946;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            padding: 2rem;
+        }
+        .auth-box {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow-lg);
+        }
+        .auth-logo { text-align: center; margin-bottom: 2rem; }
+        .auth-logo span { font-size: 4rem; }
+        .auth-logo h1 { font-size: 1.8rem; color: var(--primary-color); margin-top: 0.5rem; }
+        .auth-tabs { display: flex; margin-bottom: 2rem; border-bottom: 2px solid #e9ecef; }
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        .auth-tab.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+        .auth-form { display: none; }
+        .auth-form.active { display: block; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--dark-color); }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .btn { padding: 0.875rem 1.5rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); width: 100%; }
+        .btn-primary { background: var(--gradient-primary); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .auth-link { text-align: center; margin-top: 1.5rem; color: #6c757d; }
+        .auth-link a { color: var(--primary-color); text-decoration: none; font-weight: 500; }
+        .main-app { display: none; }
+        .main-app.active { display: block; }
+        .header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 1.5rem; font-weight: 700; }
+        .user-menu { display: flex; align-items: center; gap: 1rem; }
+        .user-avatar { width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .user-info { text-align: right; }
+        .user-name { font-weight: 600; font-size: 0.95rem; }
+        .user-id { font-size: 0.8rem; opacity: 0.8; }
+        .header-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
+        .header-btn:hover { background: rgba(255,255,255,0.3); }
+        .hero { background: var(--gradient-primary); color: white; padding: 8rem 2rem 4rem; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.25rem; opacity: 0.95; margin-bottom: 2rem; }
+        .service-btn { display: inline-block; background: white; color: var(--primary-color); padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: var(--transition); }
+        .dashboard { padding: 3rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .section-title { font-size: 2rem; margin-bottom: 0.5rem; }
+        .section-subtitle { color: #6c757d; margin-bottom: 2rem; }
+        .stats-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .stat-card { background: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); text-align: center; }
+        .stat-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .stat-number { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
+        .stat-label { color: #6c757d; font-size: 0.9rem; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .service-card { background: white; border-radius: var(--border-radius); padding: 2rem; box-shadow: var(--shadow-sm); cursor: pointer; transition: var(--transition); border-top: 4px solid transparent; }
+        .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .service-card.outing { border-top-color: var(--primary-color); }
+        .service-card.xerox { border-top-color: var(--secondary-color); }
+        .service-card.mess { border-top-color: var(--success-color); }
+        .service-card.fivestar { border-top-color: var(--warning-color); }
+        .service-card.ccd { border-top-color: var(--accent-color); }
+        .service-card.stationary { border-top-color: #7209b7; }
+        .service-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+        .service-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .service-card p { color: #6c757d; margin-bottom: 1rem; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.6); z-index: 2000; justify-content: center; align-items: center; padding: 1rem; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: white; border-radius: var(--border-radius); max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-header { background: var(--gradient-primary); color: white; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .modal-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .modal-body { padding: 2rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+        .btn-secondary { background: #e9ecef; color: var(--dark-color); }
+        .status-section { padding: 3rem 2rem; max-width: 1400px; margin: 0 auto; background: white; margin-top: 2rem; }
+        .status-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .tab-btn { padding: 0.75rem 1.5rem; border: 2px solid #e9ecef; background: white; border-radius: 8px; cursor: pointer; font-weight: 500; }
+        .tab-btn.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .status-list { display: grid; gap: 1rem; }
+        .status-item { background: var(--light-color); border-radius: var(--border-radius); padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        .status-badge { padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.85rem; }
+        .status-badge.pending { background: #fff3cd; color: #856404; }
+        .status-badge.approved { background: #d4edda; color: #155724; }
+        .empty-state { text-align: center; padding: 4rem 2rem; color: #6c757d; }
+        .empty-state-icon { font-size: 4rem; opacity: 0.5; }
+        .footer { background: var(--dark-color); color: white; padding: 3rem 2rem; margin-top: 4rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; }
+        .footer-section h3 { margin-bottom: 1rem; color: var(--success-color); }
+        .footer-section p, .footer-section a { color: #adb5bd; text-decoration: none; display: block; margin-bottom: 0.5rem; }
+        .toast-container { position: fixed; top: 100px; right: 20px; z-index: 3000; }
+        .toast { background: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: var(--shadow-lg); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; min-width: 300px; border-left: 4px solid #28a745; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        .error-msg { color: #e63946; font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .services-grid { grid-template-columns: 1fr; } .status-item { flex-direction: column; gap: 1rem; text-align: center; } .hero h1 { font-size: 2rem; } .user-info { display: none; } }
+    </style>
+</head>
+<body>
+    <!-- Auth Screen -->
+    <div class="auth-container" id="authScreen">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <span>🎓</span>
+                <h1>College Portal</h1>
+            </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" onclick="switchAuthTab('login')">Login</div>
+                <div class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</div>
+            </div>
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Student ID / Phone Number *</label>
+                    <input type="text" id="loginId" placeholder="Enter Student ID or Phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required>
+                </div>
+                <p class="error-msg" id="loginError"></p>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="switchAuthTab('signup')">Sign Up</a></p>
+                <div style="margin-top: 1rem; text-align: center;">
+                    <button type="button" class="btn btn-secondary" onclick="loginDemo()" style="width: auto; padding: 0.5rem 1rem; font-size: 0.9rem;">Try Demo Account</button>
+                </div>
+            </form>
+            <!-- Signup Form -->
+            <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" id="firstName" placeholder="First name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" id="lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Student ID *</label>
+                    <input type="text" id="studentId" placeholder="e.g., 21CS001" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" placeholder="student@college.edu" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="phone" placeholder="+91 9876543210" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Emergency Contact *</label>
+                        <input type="tel" id="emergencyContact" placeholder="Parent's phone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Hostel/Room *</label>
+                        <input type="text" id="hostelRoom" placeholder="e.g., A-101" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Group *</label>
+                        <select id="bloodGroup" required>
+                            <option value="">Select</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Password *</label>
+                    <input type="password" id="signupPassword" placeholder="Create password (min 6 chars)" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                </div>
+                <p class="error-msg" id="signupError"></p>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+                <p class="auth-link">Already have an account? <a href="#" onclick="switchAuthTab('login')">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="main-app" id="mainApp">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo"><span>🎓</span><span>College Portal</span></div>
+                <div class="user-menu">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <div class="user-name" id="displayName">User Name</div>
+                        <div class="user-id" id="displayId">21CS001</div>
+                    </div>
+                    <button class="header-btn" onclick="showProfile()">Profile</button>
+                    <button class="header-btn" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </header>
+        <section class="hero">
+            <h1 id="welcomeMsg">Welcome to College Portal</h1>
+            <p>Your one-stop destination for all campus services - Outing permissions, Xerox, Mess orders, and more!</p>
+            <a href="#services" class="service-btn">Get Started</a>
+        </section>
+        <section class="dashboard" id="dashboard">
+            <h2 class="section-title">Dashboard</h2>
+            <p class="section-subtitle">Quick overview of your campus activities</p>
+            <div class="stats-container">
+                <div class="stat-card"><div class="stat-icon">📋</div><div class="stat-number" id="stat-total">0</div><div class="stat-label">My Requests</div></div>
+                <div class="stat-card"><div class="stat-icon">🚶</div><div class="stat-number" id="stat-outing">0</div><div class="stat-label">Outing Requests</div></div>
+                <div class="stat-card"><div class="stat-icon">🖨️</div><div class="stat-number" id="stat-xerox">0</div><div class="stat-label">Xerox Orders</div></div>
+                <div class="stat-card"><div class="stat-icon">🍽️</div><div class="stat-number" id="stat-mess">0</div><div class="stat-label">Mess Orders</div></div>
+                <div class="stat-card"><div class="stat-icon">🍕</div><div class="stat-number" id="stat-fivestar">0</div><div class="stat-label">Five Star Orders</div></div>
+                <div class="stat-card"><div class="stat-icon">☕</div><div class="stat-number" id="stat-ccd">0</div><div class="stat-label">CCD Orders</div></div>
+            </div>
+            <h2 class="section-title" id="services">Our Services</h2>
+            <p class="section-subtitle">Click on any service to place an order or request</p>
+            <div class="services-grid">
+                <div class="service-card outing" onclick="openModal('outingModal')"><div class="service-icon">🚶</div><h3>Outing Permission</h3><p>Request gate pass for outings. Notify parents and security automatically.</p><span class="service-btn">Request Outing</span></div>
+                <div class="service-card xerox" onclick="openModal('xeroxModal')"><div class="service-icon">🖨️</div><h3>Xerox & Printing</h3><p>Print, photocopy, bind, or laminate documents. Pickup or delivery available.</p><span class="service-btn">Order Now</span></div>
+                <div class="service-card mess" onclick="openModal('messModal')"><div class="service-icon">🍽️</div><h3>Mess Orders</h3><p>Order special meals, manage dietary requirements, or pre-book your meals.</p><span class="service-btn">Order Meal</span></div>
+                <div class="service-card fivestar" onclick="openModal('fivestarModal')"><div class="service-icon">🍕</div><h3>Five Star Restaurant</h3><p>Order delicious food from Five Star. Pickup or delivery to hostel available.</p><span class="service-btn">Order Food</span></div>
+                <div class="service-card ccd" onclick="openModal('ccdModal')"><div class="service-icon">☕</div><h3>Cafe Coffee Day</h3><p>Craving coffee? Order your favorite CCD beverages and snacks.</p><span class="service-btn">Order Now</span></div>
+                <div class="service-card stationary" onclick="openModal('stationaryModal')"><div class="service-icon">📝</div><h3>Stationery Shop</h3><p>Order books, notebooks, stationery, and college supplies.</p><span class="service-btn">Shop Now</span></div>
+            </div>
+        <section class="status-section" id="status">
+            <h2 class="section-title">My Requests</h2>
+            <p class="section-subtitle">Track the status of your orders and requests</p>
+            <div class="status-tabs">
+                <button class="tab-btn active" onclick="filterOrders('All', this)">All</button>
+                <button class="tab-btn" onclick="filterOrders('Outing', this)">Outings</button>
+                <button class="tab-btn" onclick="filterOrders('Xerox', this)">Xerox</button>
+                <button class="tab-btn" onclick="filterOrders('Mess', this)">Mess</button>
+                <button class="tab-btn" onclick="filterOrders('Five Star', this)">Five Star</button>
+                <button class="tab-btn" onclick="filterOrders('CCD', this)">CCD</button>
+                <button class="tab-btn" onclick="filterOrders('Stationery', this)">Stationery</button>
+            </div>
+            <div class="status-list" id="status-list">
+                <div class="empty-state"><div class="empty-state-icon">📋</div><p>No requests yet. Place your first order!</p></div>
+        </section>
+        <footer class="footer" id="contact">
+            <div class="footer-content">
+                <div class="footer-section"><h3>Quick Links</h3><a href="#dashboard">Dashboard</a><a href="#services">Services</a><a href="#status">My Requests</a></div>
+                <div class="footer-section"><h3>Contact Us</h3><p>📧 portal@college.edu</p><p>📞 +91 9380126330</p></div>
+                <div class="footer-section"><h3>Service Contacts</h3><p>🖨️ Xerox: +91 9380126330</p><p>🍽️ Mess: +91 9380126330</p><p>🚨 Security: +91 9380126330</p></div>
+        </footer>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal">
+            <div class="modal-header"><h2>👤 My Profile</h2><button class="modal-close" onclick="closeModal('profileModal')">&times;</button></div>
+            <div class="modal-body" id="profileContent"></div>
+    </div>
+
+    <!-- Outing Modal -->
+    <div class="modal-overlay" id="outingModal">
+        <div class="modal">
+            <div class="modal-header"><h2>🚶 Outing Permission</h2><button class="modal-close" onclick="closeModal('outingModal')">&times;</button></div>
+            <div class="modal-body">
+                <form onsubmit="submitOuting(event)">
+                    <div class="form-row">
+                        <div class="form-group"><label>Outing Date *</label><input type="date" id="outing-date" required></div>
+                        <div class="form-group"><label>Return Date *</label><input type="date" id="return-date" required></div>
+                    </div>
+                    <div class="form-group"><label>Reason for Outing *</label><select id="outing-reason" required><option value="">Select reason</option><option value="Family Emergency">Family Emergency</option><option value="Medical Appointment">Medical Appointment</option><option value="Personal Work">Personal Work</option><option value="Family Function">Family Function</option><option value="Other">Other</option></select></div>
+                    <div class="form-group"><label>Emergency Contact *</label><input type="tel" id="outing-contact" placeholder="Parent/Guardian phone" required></div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeModal('outingModal')">Cancel</button><button type="submit" class="btn btn-primary">Submit Request</button></div>
+                </form>
+            </div>
+    </div>
+
+    <!-- Xerox Modal -->
+    <div class="modal-overlay" id="xeroxModal">
+        <div class="modal">
+            <div class="modal-header"><h2>🖨️ Xerox & Printing</h2><button class="modal-close" onclick="closeModal('xeroxModal')">&times;</button></div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Xerox')">
+                    <div class="form-group"><label>Service Type *</label><select id="xerox-service" required><option value="">Select service</option><option value="Photocopy">Photocopy</option><option value="Print">Print</option><option value="Binding">Binding</option><option value="Lamination">Lamination</option></select></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Number of Pages *</label><input type="number" id="xerox-pages" min="1" value="1" required></div>
+                        <div class="form-group"><label>Delivery *</label><select id="xerox-delivery" required><option value="">Select</option><option value="Pickup">Pickup at Shop</option><option value="Hostel">Deliver to Hostel</option></select></div>
+                    </div>
+                    <div class="form-group"><label>Contact Number *</label><input type="tel" id="xerox-contact" required></div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeModal('xeroxModal')">Cancel</button><button type="submit" class="btn btn-primary">Place Order</button></div>
+                </form>
+            </div>
+    </div>
+
+    <!-- Mess Modal -->
+    <div class="modal-overlay" id="messModal">
+        <div class="modal">
+            <div class="modal-header"><h2>🍽️ Mess Order</h2><button class="modal-close" onclick="closeModal('messModal')">&times;</button></div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Mess')">
+                    <div class="form-row">
+                        <div class="form-group"><label>Meal Type *</label><select id="mess-meal" required><option value="">Select meal</option><option value="Breakfast">Breakfast</option><option value="Lunch">Lunch</option><option value="Dinner">Dinner</option><option value="Snacks">Snacks</option></select></div>
+                        <div class="form-group"><label>Date *</label><input type="date" id="mess-date" required></div>
+                    </div>
+                    <div class="form-group"><label>Quantity *</label><input type="number" id="mess-qty" min="1" value="1" required></div>
+                    <div class="form-group"><label>Special Requests</label><textarea id="mess-requests" rows="3" placeholder="Any dietary requirements..."></textarea></div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeModal('messModal')">Cancel</button><button type="submit" class="btn btn-primary">Confirm Order</button></div>
+                </form>
+            </div>
+    </div>
+
+    <!-- Five Star Modal -->
+    <div class="modal-overlay" id="fivestarModal">
+        <div class="modal">
+            <div class="modal-header"><h2>🍕 Five Star Restaurant</h2><button class="modal-close" onclick="closeModal('fivestarModal')">&times;</button></div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Five Star')">
+                    <div class="form-group"><label>Category *</label><select id="fs-category" required><option value="">Select category</option><option value="Biryani">Biryani</option><option value="Curries">Curries</option><option value="Rotis">Rotis & Naan</option><option value="Rice">Rice Items</option></select></div>
+                    <div class="form-group"><label>Item *</label><input type="text" id="fs-item" placeholder="Enter item name" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Quantity *</label><input type="number" id="fs-qty" min="1" value="1" required></div>
+                        <div class="form-group"><label>Delivery *</label><select id="fs-delivery" required><option value="">Select</option><option value="Pickup">Pickup</option><option value="Hostel">Deliver to Hostel</option></select></div>
+                    </div>
+                    <div class="form-group"><label>Contact *</label><input type="tel" id="fs-contact" required></div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeModal('fivestarModal')">Cancel</button><button type="submit" class="btn btn-primary">Place Order</button></div>
+                </form>
+            </div>
+    </div>
+
+    <!-- CCD Modal -->
+    <div class="modal-overlay" id="ccdModal">
+        <div class="modal">
+            <div class="modal-header"><h2>☕ Cafe Coffee Day</h2><button class="modal-close" onclick="closeModal('ccdModal')">&times;</button></div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'CCD')">
+                    <div class="form-group"><label>Category *</label><select id="ccd-category" required><option value="">Select category</option><option value="Coffee">Coffee</option><option value="Cappuccino">Cappuccino</option><option value="Latte">Latte</option><option value="Cold Coffee">Cold Coffee</option><option value="Shakes">Shakes</option></select></div>
+                    <div class="form-group"><label>Item *</label><input type="text" id="ccd-item" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Quantity *</label><input type="number" id="ccd-qty" min="1" value="1" required></div>
+                        <div class="form-group"><label>Size *</label><select id="ccd-size" required><option value="Small">Small</option><option value="Medium">Medium</option><option value="Large">Large</option></select></div>
+                    </div>
+                    <div class="form-group"><label>Contact *</label><input type="tel" id="ccd-contact" required></div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeModal('ccdModal')">Cancel</button><button type="submit" class="btn btn-primary">Place Order</button></div>
+                </form>
+            </div>
+    </div>
+
+    <!-- Stationery Modal -->
+    <div class="modal-overlay" id="stationaryModal">
+        <div class="modal">
+            <div class="modal-header"><h2>📝 Stationery Shop</h2><button class="modal-close" onclick="closeModal('stationaryModal')">&times;</button></div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Stationery')">
+                    <div class="form-group"><label>Category *</label><select id="stat-category" required><option value="">Select category</option><option value="Notebooks">Notebooks</option><option value="Pens">Pens & Pencils</option><option value="Files">Files & Folders</option><option value="Art Supplies">Art Supplies</option></select></div>
+                    <div class="form-group"><label>Item *</label><input type="text" id="stat-item" placeholder="Enter item name" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Quantity *</label><input type="number" id="stat-qty" min="1" value="1" required></div>
+                        <div class="form-group"><label>Delivery *</label><select id="stat-delivery" required><option value="">Select</option><option value="Pickup">Pickup</option><option value="Hostel">Deliver to Hostel</option></select></div>
+                    </div>
+                    <div class="form-group"><label>Contact *</label><input type="tel" id="stat-contact" required></div>
+                    <div class="form-actions"><button type="button" class="btn btn-secondary" onclick="closeModal('stationaryModal')">Cancel</button><button type="submit" class="btn btn-primary">Place Order</button></div>
+                </form>
+            </div>
+    </div>
+
+    <script>
+        // API Configuration - Using relative path for development server
+        const API_BASE = '/api';
+        
+        // Global state
+        let currentUser = null;
+        let currentFilter = 'All';
+        
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+        
+        // Check if user is authenticated
+        async function checkAuth() {
+            try {
+                const response = await fetch(API_BASE + '/me', {
+                    credentials: 'same-origin'
+                });
+                if (response.ok) {
+                    currentUser = await response.json();
+                    showMainApp();
+                }
+            } catch (error) {
+                console.log('Not authenticated, showing login screen');
+            }
+        }
+        
+        // Switch between Login and Signup tabs
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Form').classList.add('active');
+        }
+        
+        // Handle Signup
+        async function handleSignup(event) {
+            event.preventDefault();
+            const errorEl = document.getElementById('signupError');
+            errorEl.style.display = 'none';
+            
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const studentId = document.getElementById('studentId').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const emergencyContact = document.getElementById('emergencyContact').value.trim();
+            const hostelRoom = document.getElementById('hostelRoom').value.trim();
+            const bloodGroup = document.getElementById('bloodGroup').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                errorEl.textContent = 'Passwords do not match!';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            if (password.length < 6) {
+                errorEl.textContent = 'Password must be at least 6 characters!';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            try {
+                const response = await fetch(API_BASE + '/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({
+                        name: firstName + ' ' + lastName,
+                        student_id: studentId,
+                        email: email,
+                        phone: phone,
+                        password: password,
+                        emergency_contact: emergencyContact,
+                        hostel_room: hostelRoom,
+                        blood_group: bloodGroup
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    currentUser = data.student;
+                    showMainApp();
+                    showToast('Account created successfully!');
+                    document.getElementById('signupForm').reset();
+                } else {
+                    errorEl.textContent = data.error || 'Signup failed!';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Cannot connect to server. Make sure Flask is running on http://localhost:5001';
+                errorEl.style.display = 'block';
+            }
+        }
+        
+        // Handle Login
+        async function handleLogin(event) {
+            event.preventDefault();
+            const errorEl = document.getElementById('loginError');
+            errorEl.style.display = 'none';
+            
+            const loginId = document.getElementById('loginId').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch(API_BASE + '/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'same-origin',
+                    body: JSON.stringify({ login_id: loginId, password: password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    currentUser = data.student;
+                    showMainApp();
+                    showToast('Welcome back, ' + currentUser.name + '!');
+                } else {
+                    errorEl.textContent = data.error || 'Invalid credentials!';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Cannot connect to server. Make sure Flask is running on http://localhost:5001';
+                errorEl.style.display = 'block';
+            }
+        }
+        
+        // Demo Account Login
+        async function loginDemo() {
+            try {
+                const response = await fetch(API_BASE + '/demo-login', {
+                    method: 'POST',
+                    credentials: 'same-origin'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    currentUser = data.student;
+                    showMainApp();
+                    showToast('Welcome to Demo Account!');
+                } else {
+                    showToast('Demo login failed!');
+                }
+            } catch (error) {
+                // Fallback: show main app without backend
+                showMainApp();
+                showToast('Running in demo mode (offline)');
+            }
+        }
+        
+        // Show main app after login
+        function showMainApp() {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('active');
+            document.getElementById('displayName').textContent = currentUser ? currentUser.name : 'Demo User';
+            document.getElementById('displayId').textContent = currentUser ? currentUser.student_id : 'DEMO001';
+            document.getElementById('welcomeMsg').textContent = 'Welcome, ' + (currentUser ? currentUser.name.split(' ')[0] : 'User') + '!';
+            loadDashboardStats();
+            loadOrders();
+        }
+        
+        // Logout
+        async function logout() {
+            try {
+                await fetch(API_BASE + '/logout', { 
+                    method: 'POST',
+                    credentials: 'same-origin'
+                });
+            } catch (error) {
+                console.log('Logout API call failed');
+            }
+            currentUser = null;
+            document.getElementById('mainApp').classList.remove('active');
+            document.getElementById('authScreen').style.display = 'flex';
+            document.getElementById('loginForm').reset();
+        }
+        
+        // Show Profile
+        function showProfile() {
+            const content = '<div class="form-group"><label>Full Name</label><p>' + (currentUser ? currentUser.name : 'N/A') + '</p></div><div class="form-group"><label>Student ID</label><p>' + (currentUser ? currentUser.student_id : 'N/A') + '</p></div><div class="form-group"><label>Email</label><p>' + (currentUser ? currentUser.email : 'N/A') + '</p></div><div class="form-group"><label>Phone</label><p>' + (currentUser ? currentUser.phone : 'N/A') + '</p></div><div class="form-group"><label>Hostel/Room</label><p>' + (currentUser ? currentUser.hostel_room : 'N/A') + '</p></div><div class="form-group"><label>Blood Group</label><p>' + (currentUser ? currentUser.blood_group : 'N/A') + '</p></div>';
+            document.getElementById('profileContent').innerHTML = content;
+            openModal('profileModal');
+        }
+        
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // Close modal on outside click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) this.classList.remove('active');
+            });
+        });
+        
+        // Load dashboard stats
+        async function loadDashboardStats() {
+            try {
+                const response = await fetch(API_BASE + '/dashboard/stats');
+                if (response.ok) {
+                    const stats = await response.json();
+                    document.getElementById('stat-total').textContent = 
+                        (stats.pending_outings || 0) + 
+                        (stats.pending_xerox || 0) + 
+                        (stats.pending_mess || 0) + 
+                        (stats.pending_fivestar || 0) + 
+                        (stats.pending_ccd || 0) + 
+                        (stats.pending_stationary || 0);
+                    document.getElementById('stat-outing').textContent = stats.pending_outings || 0;
+                    document.getElementById('stat-xerox').textContent = stats.pending_xerox || 0;
+                    document.getElementById('stat-mess').textContent = stats.pending_mess || 0;
+                    document.getElementById('stat-fivestar').textContent = stats.pending_fivestar || 0;
+                    document.getElementById('stat-ccd').textContent = stats.pending_ccd || 0;
+                }
+            } catch (error) {
+                console.log('Could not load stats from server');
+            }
+        }
+        
+        // Load orders from backend
+        async function loadOrders() {
+            const container = document.getElementById('status-list');
+            container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Loading orders...</p></div>';
+            
+            try {
+                const services = ['outing-requests', 'xerox-orders', 'mess-orders', 'fivestar-orders', 'ccd-orders', 'stationary-orders'];
+                let allOrders = [];
+                const userId = currentUser ? currentUser.id : 1;
+                
+                for (const service of services) {
+                    try {
+                        const response = await fetch(API_BASE + '/' + service + '?student_id=' + userId);
+                        if (response.ok) {
+                            const data = await response.json();
+                            const orders = data.requests || data.orders || [];
+                            orders.forEach(o => {
+                                o.serviceType = service.replace('-requests', '').replace('-orders', '');
+                            });
+                            allOrders = allOrders.concat(orders);
+                        }
+                    } catch (e) {
+                        console.log('Could not load ' + service);
+                    }
+                }
+                
+                // Sort by date
+                allOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                
+                // Filter by type
+                let filtered = currentFilter === 'All' ? allOrders : allOrders.filter(o => o.serviceType.toLowerCase() === currentFilter.toLowerCase().replace(' ', '').replace('five star', 'fivestar').replace('stationery', 'stationary'));
+                
+                if (filtered.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>No orders yet. Place your first order!</p></div>';
+                    return;
+                }
+                
+                container.innerHTML = filtered.map(order => {
+                    const type = order.serviceType.charAt(0).toUpperCase() + order.serviceType.slice(1).replace('fivestar', 'Five Star').replace('stationary', 'Stationery');
+                    return '<div class="status-item"><div><strong>' + type + '</strong><p>' + getOrderDetails(order) + '</p><small>' + new Date(order.created_at).toLocaleString() + '</small></div><span class="status-badge ' + order.status + '">' + order.status + '</span></div>';
+                }).join('');
+            } catch (error) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📋</div><p>Could not load orders from server</p></div>';
+            }
+        }
+        
+        // Get order details
+        function getOrderDetails(order) {
+            if (order.serviceType === 'outing') return order.reason + ' - ' + new Date(order.outing_date).toLocaleDateString();
+            if (order.serviceType === 'xerox') return order.pages + ' pages - ' + order.delivery_location;
+            if (order.serviceType === 'mess') return order.meal_type + ' (Qty: ' + order.quantity + ')';
+            if (order.serviceType === 'fivestar') return order.item + ' (Qty: ' + order.quantity + ')';
+            if (order.serviceType === 'ccd') return order.item + ' - ' + order.size;
+            if (order.serviceType === 'stationary') return order.item + ' (Qty: ' + order.quantity + ')';
+            return '';
+        }
+        
+        // Filter orders
+        function filterOrders(type, btn) {
+            currentFilter = type;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            loadOrders();
+        }
+        
+        // Submit Outing
+        async function submitOuting(event) {
+            event.preventDefault();
+            const userId = currentUser ? currentUser.id : 1;
+            
+            try {
+                const response = await fetch(API_BASE + '/outing-requests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        student_id: userId,
+                        outing_date: document.getElementById('outing-date').value,
+                        return_date: document.getElementById('return-date').value,
+                        reason: document.getElementById('outing-reason').value,
+                        emergency_contact: document.getElementById('outing-contact').value
+                    })
+                });
+                
+                if (response.ok) {
+                    showToast('Outing request submitted successfully!');
+                    closeModal('outingModal');
+                    event.target.reset();
+                    loadDashboardStats();
+                    loadOrders();
+                } else {
+                    const data = await response.json();
+                    showToast(data.error || 'Failed to submit request');
+                }
+            } catch (error) {
+                showToast('Network error. Please try again.');
+            }
+        }
+        
+        // Submit orders
+        async function submitOrder(event, type) {
+            event.preventDefault();
+            const userId = currentUser ? currentUser.id : 1;
+            let endpoint, orderData;
+            
+            if (type === 'Xerox') {
+                endpoint = '/xerox-orders';
+                orderData = {
+                    student_id: userId,
+                    service_type: document.getElementById('xerox-service').value,
+                    pages: parseInt(document.getElementById('xerox-pages').value) || 1,
+                    delivery_location: document.getElementById('xerox-delivery').value,
+                    contact_number: document.getElementById('xerox-contact').value
+                };
+            } else if (type === 'Mess') {
+                endpoint = '/mess-orders';
+                orderData = {
+                    student_id: userId,
+                    meal_type: document.getElementById('mess-meal').value,
+                    meal_date: document.getElementById('mess-date').value,
+                    quantity: parseInt(document.getElementById('mess-qty').value) || 1,
+                    special_requests: document.getElementById('mess-requests').value || null
+                };
+            } else if (type === 'Five Star') {
+                endpoint = '/fivestar-orders';
+                orderData = {
+                    student_id: userId,
+                    category: document.getElementById('fs-category').value,
+                    item: document.getElementById('fs-item').value,
+                    quantity: parseInt(document.getElementById('fs-qty').value) || 1,
+                    delivery_option: document.getElementById('fs-delivery').value,
+                    contact_number: document.getElementById('fs-contact').value
+                };
+            } else if (type === 'CCD') {
+                endpoint = '/ccd-orders';
+                orderData = {
+                    student_id: userId,
+                    category: document.getElementById('ccd-category').value,
+                    item: document.getElementById('ccd-item').value,
+                    quantity: parseInt(document.getElementById('ccd-qty').value) || 1,
+                    size: document.getElementById('ccd-size').value,
+                    contact_number: document.getElementById('ccd-contact').value
+                };
+            } else if (type === 'Stationery') {
+                endpoint = '/stationary-orders';
+                orderData = {
+                    student_id: userId,
+                    category: document.getElementById('stat-category').value,
+                    item: document.getElementById('stat-item').value,
+                    quantity: parseInt(document.getElementById('stat-qty').value) || 1,
+                    delivery_option: document.getElementById('stat-delivery').value,
+                    contact_number: document.getElementById('stat-contact').value
+                };
+            }
+            
+            try {
+                const response = await fetch(API_BASE + endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+                
+                if (response.ok) {
+                    showToast(type + ' order submitted successfully!');
+                    const modalId = type.toLowerCase().replace(' ', '').replace('five star', 'fivestar') + 'Modal';
+                    closeModal(modalId);
+                    event.target.reset();
+                    loadDashboardStats();
+                    loadOrders();
+                } else {
+                    const data = await response.json();
+                    showToast(data.error || 'Failed to submit order');
+                }
+            } catch (error) {
+                showToast('Network error. Please try again.');
+            }
+        }
+        
+        // Toast notification
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = '<span>✓</span><span>' + message + '</span>';
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>

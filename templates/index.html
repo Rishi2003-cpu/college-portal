@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Portal - Student Services</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Auth Screen (Login/Signup) -->
+    <div class="auth-container" id="authScreen">
+        <div class="auth-box">
+            <div class="auth-logo">
+                <span>🎓</span>
+                <h1>College Portal</h1>
+            </div>
+            <div class="auth-tabs">
+                <div class="auth-tab active" id="loginTab" onclick="switchAuthTab('login')">Login</div>
+                <div class="auth-tab" id="signupTab" onclick="switchAuthTab('signup')">Sign Up</div>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginId">Student ID / Phone Number *</label>
+                    <input type="text" id="loginId" placeholder="Enter Student ID or Phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password *</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required>
+                </div>
+                <p class="error-msg" id="loginError"></p>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="auth-link">Don't have an account? <a href="#" onclick="switchAuthTab('signup')">Sign Up</a></p>
+                <div class="demo-btn-container">
+                    <button type="button" class="btn btn-secondary" onclick="loginDemo()" style="width: auto; padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        <i class="fas fa-user"></i> Try Demo Account
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Signup Form -->
+            <form class="auth-form" id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" placeholder="First name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="studentId">Student ID *</label>
+                    <input type="text" id="studentId" placeholder="e.g., 21CS001" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" placeholder="student@college.edu" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" placeholder="+91 9876543210" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emergencyContact">Emergency Contact *</label>
+                        <input type="tel" id="emergencyContact" placeholder="Parent's phone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="hostelRoom">Hostel/Room *</label>
+                        <input type="text" id="hostelRoom" placeholder="e.g., A-101" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group *</label>
+                        <select id="bloodGroup" required>
+                            <option value="">Select</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password *</label>
+                    <input type="password" id="signupPassword" placeholder="Create password (min 6 chars)" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+                </div>
+                <p class="error-msg" id="signupError"></p>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+                <p class="auth-link">Already have an account? <a href="#" onclick="switchAuthTab('login')">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App (Hidden until login) -->
+    <div class="main-app" id="mainApp">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🎓</span>
+                    <span>College Portal</span>
+                </div>
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <nav>
+                    <ul class="nav-links" id="navLinks">
+                        <li><a href="#dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="#services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                        <li><a href="#status"><i class="fas fa-clipboard-list"></i> My Requests</a></li>
+                    </ul>
+                </nav>
+                <div class="user-menu">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-info">
+                        <div class="user-name" id="displayName">User Name</div>
+                        <div class="user-id" id="displayId">21CS001</div>
+                    </div>
+                    <button class="header-btn" onclick="showProfile()">
+                        <i class="fas fa-user"></i> Profile
+                    </button>
+                    <button class="header-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 id="welcomeMsg">Welcome to College Portal</h1>
+            <p>Your one-stop destination for all campus services - Outing permissions, Xerox, Mess orders, and more!</p>
+            <a href="#services" class="service-btn" style="background: white; color: var(--primary-color);">
+                <i class="fas fa-rocket"></i> Get Started
+            </a>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section class="dashboard" id="dashboard">
+        <h2 class="section-title">Dashboard</h2>
+        <p class="section-subtitle">Quick overview of your campus activities</p>
+        
+        <!-- Stats Container -->
+        <div class="stats-container" id="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number">--</div>
+                <div class="stat-label">Total Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🚶</div>
+                <div class="stat-number">--</div>
+                <div class="stat-label">Pending Outings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🖨️</div>
+                <div class="stat-number">--</div>
+                <div class="stat-label">Xerox Orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🍽️</div>
+                <div class="stat-number">--</div>
+                <div class="stat-label">Mess Orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🍕</div>
+                <div class="stat-number">--</div>
+                <div class="stat-label">Five Star Orders</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">☕</div>
+                <div class="stat-number">--</div>
+                <div class="stat-label">CCD Orders</div>
+            </div>
+        </div>
+
+        <!-- Services Grid -->
+        <h2 class="section-title" id="services">Our Services</h2>
+        <p class="section-subtitle">Click on any service to place an order or request</p>
+        
+        <div class="services-grid">
+            <!-- Outing Request Card -->
+            <div class="service-card outing" onclick="openModal('outingModal')">
+                <div class="service-icon">🚶</div>
+                <h3>Outing Permission</h3>
+                <p>Request gate pass for outings. Notify parents and security automatically.</p>
+                <span class="service-btn">Request Outing</span>
+            </div>
+
+            <!-- Xerox Card -->
+            <div class="service-card xerox" onclick="openModal('xeroxModal')">
+                <div class="service-icon">🖨️</div>
+                <h3>Xerox & Printing</h3>
+                <p>Print, photocopy, bind, or laminate documents. Pickup or delivery available.</p>
+                <span class="service-btn">Order Now</span>
+            </div>
+
+            <!-- Mess Card -->
+            <div class="service-card mess" onclick="openModal('messModal')">
+                <div class="service-icon">🍽️</div>
+                <h3>Mess Orders</h3>
+                <p>Order special meals, manage dietary requirements, or pre-book your meals.</p>
+                <span class="service-btn">Order Meal</span>
+            </div>
+
+            <!-- Five Star Card -->
+            <div class="service-card fivestar" onclick="openModal('fivestarModal')">
+                <div class="service-icon">🍕</div>
+                <h3>Five Star Restaurant</h3>
+                <p>Order delicious food from Five Star. Pickup or delivery to hostel available.</p>
+                <span class="service-btn">Order Food</span>
+            </div>
+
+            <!-- CCD Card -->
+            <div class="service-card ccd" onclick="openModal('ccdModal')">
+                <div class="service-icon">☕</div>
+                <h3>Cafe Coffee Day</h3>
+                <p>Craving coffee? Order your favorite CCD beverages and snacks.</p>
+                <span class="service-btn">Order Now</span>
+            </div>
+
+            <!-- Stationary Card -->
+            <div class="service-card stationary" onclick="openModal('stationaryModal')">
+                <div class="service-icon">📝</div>
+                <h3>Stationery Shop</h3>
+                <p>Order books, notebooks, stationery, and college supplies.</p>
+                <span class="service-btn">Shop Now</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Section -->
+    <section class="status-section" id="status">
+        <h2 class="section-title">My Requests</h2>
+        <p class="section-subtitle">Track the status of your orders and requests</p>
+        
+        <div class="status-tabs">
+            <button class="tab-btn active" data-tab="all" onclick="switchTab('all')">All</button>
+            <button class="tab-btn" data-tab="outing" onclick="switchTab('outing')">Outings</button>
+            <button class="tab-btn" data-tab="xerox" onclick="switchTab('xerox')">Xerox</button>
+            <button class="tab-btn" data-tab="mess" onclick="switchTab('mess')">Mess</button>
+            <button class="tab-btn" data-tab="fivestar" onclick="switchTab('fivestar')">Five Star</button>
+            <button class="tab-btn" data-tab="ccd" onclick="switchTab('ccd')">CCD</button>
+            <button class="tab-btn" data-tab="stationary" onclick="switchTab('stationary')">Stationery</button>
+        </div>
+        
+        <div class="status-list" id="status-list">
+            <div class="empty-state">
+                <div class="empty-state-icon">📋</div>
+                <p>No requests yet. Place your first order!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#services">Services</a>
+                <a href="#status">My Requests</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>📧 portal@college.edu</p>
+                <p>📞 +91 9380126330</p>
+            </div>
+            <div class="footer-section">
+                <h3>Service Contacts</h3>
+                <p>🖨️ Xerox: +91 9380126330</p>
+                <p>🍽️ Mess: +91 9380126330</p>
+                <p>🚨 Security: +91 9380126330</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 College Portal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-user"></i> My Profile</h2>
+                <button class="modal-close" onclick="closeModal('profileModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="profileContent">
+                <div class="profile-section">
+                    <div class="profile-field">
+                        <label>Full Name</label>
+                        <p id="profileName">-</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Student ID</label>
+                        <p id="profileStudentId">-</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Email</label>
+                        <p id="profileEmail">-</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Phone</label>
+                        <p id="profilePhone">-</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Hostel/Room</label>
+                        <p id="profileHostel">-</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Blood Group</label>
+                        <p id="profileBlood">-</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Emergency Contact</label>
+                        <p id="profileEmergency">-</p>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('profileModal')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Outing Request Modal -->
+    <div class="modal-overlay" id="outingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-walking"></i> Outing Permission</h2>
+                <button class="modal-close" onclick="closeModal('outingModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="outingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="outingDate">Outing Date *</label>
+                            <input type="date" id="outingDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="returnDate">Return Date *</label>
+                            <input type="date" id="returnDate" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="outingReason">Reason for Outing *</label>
+                        <select id="outingReason" required>
+                            <option value="">Select reason</option>
+                            <option value="Family Emergency">Family Emergency</option>
+                            <option value="Medical Appointment">Medical Appointment</option>
+                            <option value="Personal Work">Personal Work</option>
+                            <option value="Family Function">Family Function</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="outingDetails">Additional Details</label>
+                        <textarea id="outingDetails" placeholder="Provide any additional information..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="outingEmergency">Emergency Contact *</label>
+                        <input type="tel" id="outingEmergency" placeholder="Parent/Guardian phone number" required>
+                        <p class="form-hint">This number will be notified about your outing</p>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('outingModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitOutingRequest(); return false;">
+                            <i class="fas fa-paper-plane"></i> Submit Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Xerox Order Modal -->
+    <div class="modal-overlay" id="xeroxModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-print"></i> Xerox & Printing</h2>
+                <button class="modal-close" onclick="closeModal('xeroxModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="xeroxForm">
+                    <div class="form-group">
+                        <label for="xeroxService">Service Type *</label>
+                        <select id="xeroxService" required>
+                            <option value="">Select service</option>
+                            <option value="Photocopy">Photocopy</option>
+                            <option value="Print">Print</option>
+                            <option value="Binding">Binding</option>
+                            <option value="Lamination">Lamination</option>
+                            <option value="Spiral Binding">Spiral Binding</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="xeroxPages">Number of Pages *</label>
+                            <input type="number" id="xeroxPages" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="xeroxDelivery">Delivery Location *</label>
+                            <select id="xeroxDelivery" required>
+                                <option value="">Select location</option>
+                                <option value="Xerox Shop">Pickup at Xerox Shop</option>
+                                <option value="Hostel">Deliver to Hostel</option>
+                                <option value="Classroom">Deliver to Classroom</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="xeroxInstructions">Special Instructions</label>
+                        <textarea id="xeroxInstructions" placeholder="Color printing, single/double side, etc."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="xeroxContact">Contact Number *</label>
+                        <input type="tel" id="xeroxContact" placeholder="Your phone number" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('xeroxModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitXeroxOrder(); return false;">
+                            <i class="fas fa-shopping-cart"></i> Place Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mess Order Modal -->
+    <div class="modal-overlay" id="messModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-utensils"></i> Mess Order</h2>
+                <button class="modal-close" onclick="closeModal('messModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="messForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="messMealType">Meal Type *</label>
+                            <select id="messMealType" required>
+                                <option value="">Select meal</option>
+                                <option value="Breakfast">Breakfast</option>
+                                <option value="Lunch">Lunch</option>
+                                <option value="Dinner">Dinner</option>
+                                <option value="Snacks">Snacks</option>
+                                <option value="Special Meal">Special Meal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="messDate">Date *</label>
+                            <input type="date" id="messDate" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="messQuantity">Quantity *</label>
+                            <input type="number" id="messQuantity" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Amount</label>
+                            <input type="text" id="messAmount" value="₹50 per meal" disabled style="background: #f8f9fa;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="messRequests">Special Requests / Dietary Requirements</label>
+                        <textarea id="messRequests" placeholder="Vegetarian, Jain food, allergies, etc."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('messModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitMessOrder(); return false;">
+                            <i class="fas fa-check"></i> Confirm Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Five Star Order Modal -->
+    <div class="modal-overlay" id="fivestarModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-pizza-slice"></i> Five Star Restaurant</h2>
+                <button class="modal-close" onclick="closeModal('fivestarModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="fivestarForm">
+                    <div class="form-group">
+                        <label for="fivestarCategory">Category *</label>
+                        <select id="fivestarCategory" required onchange="updateFivestarItems()">
+                            <option value="">Select category</option>
+                            <option value="Biryani">Biryani</option>
+                            <option value="Curries">Curries</option>
+                            <option value="Rotis">Rotis & Naan</option>
+                            <option value="Rice">Rice Items</option>
+                            <option value="Starters">Starters</option>
+                            <option value="Desserts">Desserts</option>
+                            <option value="Beverages">Beverages</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fivestarItem">Item *</label>
+                        <input type="text" id="fivestarItem" placeholder="Enter item name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fivestarQuantity">Quantity *</label>
+                            <input type="number" id="fivestarQuantity" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fivestarDelivery">Delivery Option *</label>
+                            <select id="fivestarDelivery" required>
+                                <option value="">Select option</option>
+                                <option value="Pickup">Pickup from Restaurant</option>
+                                <option value="Hostel Delivery">Deliver to Hostel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="fivestarInstructions">Special Instructions</label>
+                        <textarea id="fivestarInstructions" placeholder="Spice level, extra ingredients, etc."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="fivestarContact">Contact Number *</label>
+                        <input type="tel" id="fivestarContact" placeholder="Your phone number" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('fivestarModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitFivestarOrder(); return false;">
+                            <i class="fas fa-shopping-cart"></i> Place Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CCD Order Modal -->
+    <div class="modal-overlay" id="ccdModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-coffee"></i> Cafe Coffee Day</h2>
+                <button class="modal-close" onclick="closeModal('ccdModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="ccdForm">
+                    <div class="form-group">
+                        <label for="ccdCategory">Category *</label>
+                        <select id="ccdCategory" required>
+                            <option value="">Select category</option>
+                            <option value="Coffee">Coffee</option>
+                            <option value="Cappuccino">Cappuccino</option>
+                            <option value="Latte">Latte</option>
+                            <option value="Espresso">Espresso</option>
+                            <option value="Cold Coffee">Cold Coffee</option>
+                            <option value="Shakes">Shakes</option>
+                            <option value="Smoothies">Smoothies</option>
+                            <option value="Tea">Tea</option>
+                            <option value="Snacks">Snacks & Bakery</option>
+                            <option value="Sandwiches">Sandwiches</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ccdItem">Item *</label>
+                        <input type="text" id="ccdItem" placeholder="Enter item name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ccdQuantity">Quantity *</label>
+                            <input type="number" id="ccdQuantity" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ccdSize">Size *</label>
+                            <select id="ccdSize" required>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ccdInstructions">Special Instructions</label>
+                        <textarea id="ccdInstructions" placeholder="Less sugar, extra shot, etc."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="ccdContact">Contact Number *</label>
+                        <input type="tel" id="ccdContact" placeholder="Your phone number" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('ccdModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitCCDOrder(); return false;">
+                            <i class="fas fa-shopping-cart"></i> Place Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stationary Order Modal -->
+    <div class="modal-overlay" id="stationaryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-pen"></i> Stationery Shop</h2>
+                <button class="modal-close" onclick="closeModal('stationaryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="stationaryForm">
+                    <div class="form-group">
+                        <label for="stationaryCategory">Category *</label>
+                        <select id="stationaryCategory" required>
+                            <option value="">Select category</option>
+                            <option value="Notebooks">Notebooks & Registers</option>
+                            <option value="Pens">Pens & Pencils</option>
+                            <option value="Papers">Papers & Sheets</option>
+                            <option value="Files">Files & Folders</option>
+                            <option value="Art Supplies">Art Supplies</option>
+                            <option value="Calculator">Calculators</option>
+                            <option value="Textbooks">Textbooks</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stationaryItem">Item *</label>
+                        <input type="text" id="stationaryItem" placeholder="Enter item name and brand" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="stationaryQuantity">Quantity *</label>
+                            <input type="number" id="stationaryQuantity" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stationaryDelivery">Delivery Option *</label>
+                            <select id="stationaryDelivery" required>
+                                <option value="">Select option</option>
+                                <option value="Pickup">Pickup from Shop</option>
+                                <option value="Hostel Delivery">Deliver to Hostel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="stationaryInstructions">Special Instructions</label>
+                        <textarea id="stationaryInstructions" placeholder="Specific size, color, brand preference, etc."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="stationaryContact">Contact Number *</label>
+                        <input type="tel" id="stationaryContact" placeholder="Your phone number" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('stationaryModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary" onclick="submitStationaryOrder(); return false;">
+                            <i class="fas fa-shopping-cart"></i> Place Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/app.js"></script>
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tab) {
+                    btn.classList.add('active');
+                }
+            });
+            loadRecentRequests();
+        }
+
+        // Update Five Star items based on category (placeholder function)
+        function updateFivestarItems() {
+            const category = document.getElementById('fivestarCategory').value;
+            const itemInput = document.getElementById('fivestarItem');
+            
+            const itemsByCategory = {
+                'Biryani': 'Chicken Biryani, Mutton Biryani, Veg Biryani, Pulao',
+                'Curries': 'Butter Chicken, Palak Paneer, Dal Makhani, Veg Curry',
+                'Rotis': 'Naan, Roti, Paratha, Laccha Paratha',
+                'Rice': 'Fried Rice, Biryani Rice, Jeera Rice, Plain Rice',
+                'Starters': 'Paneer Tikka, Samosa, Spring Roll, Chicken 65',
+                'Desserts': 'Gulab Jamun, Rasgulla, Ice Cream, Faluda',
+                'Beverages': 'Lassi, Buttermilk, Soft Drinks, Water'
+            };
+            
+            if (itemsByCategory[category]) {
+                itemInput.placeholder = `e.g., ${itemsByCategory[category]}`;
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,138 @@
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.6.108:5001
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [04/Jan/2026 03:10:12] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:01] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:01] "GET /static/css/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:01] "GET /static/js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:02] "[31m[1mGET /api/me HTTP/1.1[0m" 401 -
+127.0.0.1 - - [04/Jan/2026 03:26:02] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "POST /api/login HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:26:22] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:35] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:35] "GET /static/css/styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:35] "GET /static/js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:35] "[31m[1mGET /api/me HTTP/1.1[0m" 401 -
+127.0.0.1 - - [04/Jan/2026 03:51:35] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "POST /api/login HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:44] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:51:58] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:56:20] "[33mGET /standalone.html?serverWindowId=a8af64bc-4430-43d3-80c6-7f9579e53d20 HTTP/1.1[0m" 404 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/me HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 03:58:27] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/me HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:39] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:00:52] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:00:52] "[33mGET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1[0m" 404 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/me HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:13:25] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "[35m[1mPOST /api/xerox-orders HTTP/1.1[0m" 201 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:13] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/me HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:14:48] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:11] "POST /api/logout HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "POST /api/login HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 04:15:15] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:53:51] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:07] "[36mGET / HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 11:54:07] "[36mGET /static/css/styles.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 11:54:07] "[36mGET /static/js/app.js HTTP/1.1[0m" 304 -
+127.0.0.1 - - [04/Jan/2026 11:54:07] "[31m[1mGET /api/me HTTP/1.1[0m" 401 -
+127.0.0.1 - - [04/Jan/2026 11:54:07] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "POST /api/login HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:13] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "[35m[1mPOST /api/mess-orders HTTP/1.1[0m" 201 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "GET /api/dashboard/stats HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "GET /api/outing-requests?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "GET /api/xerox-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "GET /api/mess-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "GET /api/fivestar-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "GET /api/ccd-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:54:41] "GET /api/stationary-orders?student_id=4 HTTP/1.1" 200 -
+127.0.0.1 - - [04/Jan/2026 11:57:56] code 400, message Bad request version ('>\x07ÑÖM\x00*::\x13\x01\x13\x02\x13\x03À,À+Ì©À0À/Ì¨À')
+127.0.0.1 - - [04/Jan/2026 11:57:56] "[31m[1m\x16\x03\x01\x02\x00\x01\x00\x01ü\x03\x03C\x99Vïoc\x86\x86\x93ed5G,)Ð\x10â¼>lØd\x97\x89g6\x9dÖÅ>ü \x90²(E'\x0d5kñ\x186MÝ²ûF\x0c¡øCA\x9d\x96\x9cá&\x1d>\x07ÑÖM\x00*::\x13\x01\x13\x02\x13\x03À,À+Ì©À0À/Ì¨À[0m" 400 -
+127.0.0.1 - - [04/Jan/2026 11:57:56] code 400, message Bad request version ('G\x8b\x93DÙH\x14\x9b\x16T\x0esuATq\x93\x00,ZZ\x13\x01\x13\x02\x13\x03À,À+Ì©À0À/Ì¨À')
+127.0.0.1 - - [04/Jan/2026 11:57:56] "[31m[1m\x16\x03\x01\x02\x00\x01\x00\x01ü\x03\x03î7R¢5\x9faõ\x08½:\x98ðëþöXCéöUq\x03ÖÈ¶=\\G$\x13§ ðU|6\x15\x95\x87ëðQ*$-t\x1dG\x8b\x93DÙH\x14\x9b\x16T\x0esuATq\x93\x00,ZZ\x13\x01\x13\x02\x13\x03À,À+Ì©À0À/Ì¨À[0m" 400 -
+127.0.0.1 - - [04/Jan/2026 11:57:56] code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x00\x8f\x01\x00\x00\x8b\x03\x01v\x07\x03\x18ÒJl\xad>\x83Ð\x93~')
+127.0.0.1 - - [04/Jan/2026 11:57:56] "[31m[1m\x16\x03\x01\x00\x8f\x01\x00\x00\x8b\x03\x01v\x07\x03\x18ÒJl­>\x83Ð\x93~ t\x83\x86ßþ\x91\\¤fÇx\x07\x130%ñ\x10!\x00\x00\x14À[0m" 400 -

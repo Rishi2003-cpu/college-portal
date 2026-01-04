@@ -1,0 +1,96 @@
+function submitCCDOrder() {
+            const form = document.getElementById('ccdForm');
+            if (form.checkValidity()) {
+                const ccdCategory = document.getElementById('ccdCategory').value;
+                const ccdItem = document.getElementById('ccdItem').value;
+                const ccdQuantity = document.getElementById('ccdQuantity').value;
+                const ccdSize = document.getElementById('ccdSize').value;
+                const ccdInstructions = document.getElementById('ccdSpecialInstructions').value || 'None';
+                const ccdContact = document.getElementById('ccdContact').value;
+                
+                const categories = {
+                    'coffee': 'Coffee',
+                    'cappuccino': 'Cappuccino',
+                    'latte': 'Latte',
+                    'espresso': 'Espresso',
+                    'cold-coffee': 'Cold Coffee',
+                    'shakes': 'Shakes',
+                    'smoothies': 'Smoothies',
+                    'tea': 'Tea',
+                    'snacks': 'Snacks & Bakery',
+                    'sandwiches': 'Sandwiches'
+                };
+                
+                const sizes = {
+                    'small': 'Small',
+                    'medium': 'Medium',
+                    'large': 'Large'
+                };
+                
+                const message = `*CCD Order*%0A%0A` +
+                    `Category: ${categories[ccdCategory]}%0A` +
+                    `Item: ${ccdItem}%0A` +
+                    `Quantity: ${ccdQuantity}%0A` +
+                    `Size: ${sizes[ccdSize]}%0A` +
+                    `Special Instructions: ${ccdInstructions}%0A` +
+                    `Contact: ${ccdContact}`;
+                
+                window.open(`https://wa.me/919380126330?text=${message}`, '_blank');
+                
+                closeModal('ccdModal');
+                form.reset();
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        }
+=======
+        // CCD Order Function
+        async function submitCCDOrder() {
+            const form = document.getElementById('ccdForm');
+            if (!form.checkValidity()) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Ordering...';
+            submitBtn.disabled = true;
+
+            try {
+                const formData = {
+                    student_id: 1, // TODO: Get from user session/authentication
+                    category: document.getElementById('ccdCategory').value,
+                    item: document.getElementById('ccdItem').value,
+                    quantity: parseInt(document.getElementById('ccdQuantity').value) || 1,
+                    size: document.getElementById('ccdSize').value,
+                    instructions: document.getElementById('ccdSpecialInstructions').value || null,
+                    contact_number: document.getElementById('ccdContact').value
+                };
+
+                const response = await fetch('/api/ccd-orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('CCD order submitted successfully! You will receive WhatsApp updates on your order.');
+                    closeModal('ccdModal');
+                    form.reset();
+                    loadDashboardStats(); // Refresh stats
+                } else {
+                    alert('Error: ' + (result.error || 'Failed to submit order'));
+                }
+            } catch (error) {
+                console.error('Error submitting CCD order:', error);
+                alert('Network error. Please try again.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        }

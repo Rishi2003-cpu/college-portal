@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Portal - Student Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/app.js" defer></script>
+</head>
+<body>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Auth Screen -->
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-container">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h1>College Portal</h1>
+                </div>
+                <p>Student Services Dashboard</p>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> Student ID / Phone</label>
+                    <input type="text" id="loginId" placeholder="Enter Student ID or Phone" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter Password" required>
+                </div>
+                <div id="loginError" class="error-message"></div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            
+            <!-- Signup Form -->
+            <form id="signupForm" class="auth-form" onsubmit="handleSignup(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> First Name</label>
+                        <input type="text" id="firstName" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Last Name</label>
+                        <input type="text" id="lastName" placeholder="Last Name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> Student ID</label>
+                    <input type="text" id="studentId" placeholder="Enter Student ID" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="email" placeholder="Enter Email" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone</label>
+                    <input type="tel" id="phone" placeholder="Enter Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone-alt"></i> Emergency Contact</label>
+                    <input type="tel" id="emergencyContact" placeholder="Emergency Contact Number" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-bed"></i> Hostel / Room</label>
+                    <input type="text" id="hostelRoom" placeholder="Hostel Name & Room Number" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tint"></i> Blood Group</label>
+                    <select id="bloodGroup" required>
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create Password" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                </div>
+                <div id="signupError" class="error-message"></div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="main-app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>College Portal</span>
+                </div>
+                <div class="header-actions">
+                    <span id="displayName" class="user-name"></span>
+                    <button class="btn btn-icon" onclick="showProfile()">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <button class="btn btn-icon" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 id="welcomeMsg">Welcome!</h1>
+                <p>Your one-stop portal for all campus services</p>
+            </div>
+        </section>
+
+        <!-- Dashboard Stats -->
+        <section class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-total">0</span>
+                    <span class="stat-label">Total Requests</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-walking"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-outing">0</span>
+                    <span class="stat-label">Outings</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-print"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-xerox">0</span>
+                    <span class="stat-label">Xerox Orders</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-utensils"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-mess">0</span>
+                    <span class="stat-label">Mess Orders</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-fivestar">0</span>
+                    <span class="stat-label">Five Star</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-coffee"></i></div>
+                <div class="stat-info">
+                    <span class="stat-value" id="stat-ccd">0</span>
+                    <span class="stat-label">CCD Orders</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Cards -->
+        <section class="services-container">
+            <h2>Services</h2>
+            <div class="services-grid">
+                <div class="service-card" onclick="openModal('outingModal')">
+                    <div class="service-icon"><i class="fas fa-walking"></i></div>
+                    <h3>Outing Permission</h3>
+                    <p>Request and manage your outing permissions</p>
+                </div>
+                <div class="service-card" onclick="openModal('xeroxModal')">
+                    <div class="service-icon"><i class="fas fa-print"></i></div>
+                    <h3>Xerox Services</h3>
+                    <p>Printing, photocopying, binding & lamination</p>
+                </div>
+                <div class="service-card" onclick="openModal('messModal')">
+                    <div class="service-icon"><i class="fas fa-utensils"></i></div>
+                    <h3>Mess Orders</h3>
+                    <p>Pre-order your meals with special requests</p>
+                </div>
+                <div class="service-card" onclick="openModal('fivestarModal')">
+                    <div class="service-icon"><i class="fas fa-star"></i></div>
+                    <h3>Five Star</h3>
+                    <p>Order from Five Star Restaurant</p>
+                </div>
+                <div class="service-card" onclick="openModal('ccdModal')">
+                    <div class="service-icon"><i class="fas fa-coffee"></i></div>
+                    <h3>CCD</h3>
+                    <p>Order from Cafe Coffee Day</p>
+                </div>
+                <div class="service-card" onclick="openModal('stationaryModal')">
+                    <div class="service-icon"><i class="fas fa-pen"></i></div>
+                    <h3>Stationery Shop</h3>
+                    <p>Order stationery and supplies</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section class="status-container">
+            <h2>Your Requests</h2>
+            <div class="status-tabs">
+                <button class="tab-btn active" onclick="filterOrders('All', this)">All</button>
+                <button class="tab-btn" onclick="filterOrders('Outing', this)">Outing</button>
+                <button class="tab-btn" onclick="filterOrders('Xerox', this)">Xerox</button>
+                <button class="tab-btn" onclick="filterOrders('Mess', this)">Mess</button>
+                <button class="tab-btn" onclick="filterOrders('Five Star', this)">Five Star</button>
+                <button class="tab-btn" onclick="filterOrders('CCD', this)">CCD</button>
+            </div>
+            <div id="status-list" class="status-list">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <p>No requests yet!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>&copy; 2024 College Portal. All rights reserved.</p>
+            <p>Need help? Contact support@college.edu</p>
+        </footer>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-user"></i> My Profile</h2>
+                <button class="modal-close" onclick="closeModal('profileModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="profileContent">
+                <!-- Profile content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Outing Modal -->
+    <div class="modal-overlay" id="outingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-walking"></i> Outing Permission</h2>
+                <button class="modal-close" onclick="closeModal('outingModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitOuting(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Outing Date *</label>
+                            <input type="date" id="outing-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Return Date *</label>
+                            <input type="date" id="return-date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Reason *</label>
+                        <select id="outing-reason" required>
+                            <option value="">Select Reason</option>
+                            <option value="Medical">Medical</option>
+                            <option value="Family">Family</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Details</label>
+                        <textarea id="outing-details" placeholder="Additional details..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Emergency Contact *</label>
+                        <input type="tel" id="outing-contact" placeholder="Contact number during outing" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('outingModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Xerox Modal -->
+    <div class="modal-overlay" id="xeroxModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-print"></i> Xerox Services</h2>
+                <button class="modal-close" onclick="closeModal('xeroxModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Xerox')">
+                    <div class="form-group">
+                        <label>Service Type *</label>
+                        <select id="xerox-service" required>
+                            <option value="">Select Service</option>
+                            <option value="Printing">Printing</option>
+                            <option value="Photocopying">Photocopying</option>
+                            <option value="Binding">Binding</option>
+                            <option value="Lamination">Lamination</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Pages *</label>
+                            <input type="number" id="xerox-pages" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery *</label>
+                            <select id="xerox-delivery" required>
+                                <option value="">Select</option>
+                                <option value="Classroom">Deliver to Classroom</option>
+                                <option value="Hostel">Deliver to Hostel</option>
+                                <option value="Pickup">Pickup</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Instructions</label>
+                        <textarea id="xerox-instructions" placeholder="Any special requirements..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact *</label>
+                        <input type="tel" id="xerox-contact" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('xeroxModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mess Modal -->
+    <div class="modal-overlay" id="messModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-utensils"></i> Mess Order</h2>
+                <button class="modal-close" onclick="closeModal('messModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Mess')">
+                    <div class="form-group">
+                        <label>Meal Type *</label>
+                        <select id="mess-meal" required>
+                            <option value="">Select Meal</option>
+                            <option value="Breakfast">Breakfast</option>
+                            <option value="Lunch">Lunch</option>
+                            <option value="Dinner">Dinner</option>
+                            <option value="Snacks">Snacks</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date *</label>
+                        <input type="date" id="mess-date" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantity *</label>
+                            <input type="number" id="mess-qty" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Special Requests</label>
+                            <input type="text" id="mess-requests" placeholder="Dietary requirements">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('messModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Five Star Modal -->
+    <div class="modal-overlay" id="fivestarModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-star"></i> Five Star Restaurant</h2>
+                <button class="modal-close" onclick="closeModal('fivestarModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Five Star')">
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="fs-category" required>
+                            <option value="">Select Category</option>
+                            <option value="Starters">Starters</option>
+                            <option value="Main Course">Main Course</option>
+                            <option value="Biryani">Biryani</option>
+                            <option value="Fried Rice">Fried Rice</option>
+                            <option value="Noodles">Noodles</option>
+                            <option value="Beverages">Beverages</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Item *</label>
+                        <input type="text" id="fs-item" placeholder="Enter item name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantity *</label>
+                            <input type="number" id="fs-qty" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery *</label>
+                            <select id="fs-delivery" required>
+                                <option value="">Select</option>
+                                <option value="Pickup">Pickup</option>
+                                <option value="Delivery">Delivery to Hostel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact *</label>
+                        <input type="tel" id="fs-contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Instructions</label>
+                        <textarea id="fs-instructions" placeholder="Any special requirements..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('fivestarModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- CCD Modal -->
+    <div class="modal-overlay" id="ccdModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-coffee"></i> CCD Order</h2>
+                <button class="modal-close" onclick="closeModal('ccdModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'CCD')">
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="ccd-category" required>
+                            <option value="">Select Category</option>
+                            <option value="Coffee">Coffee</option>
+                            <option value="Cappuccino">Cappuccino</option>
+                            <option value="Latte">Latte</option>
+                            <option value="Espresso">Espresso</option>
+                            <option value="Cold Coffee">Cold Coffee</option>
+                            <option value="Shakes">Shakes</option>
+                            <option value="Tea">Tea</option>
+                            <option value="Snacks">Snacks</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Item *</label>
+                        <input type="text" id="ccd-item" placeholder="Enter item name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantity *</label>
+                            <input type="number" id="ccd-qty" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Size *</label>
+                            <select id="ccd-size" required>
+                                <option value="">Select Size</option>
+                                <option value="Small">Small</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact *</label>
+                        <input type="tel" id="ccd-contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Instructions</label>
+                        <textarea id="ccd-instructions" placeholder="Any special requirements..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('ccdModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stationery Modal -->
+    <div class="modal-overlay" id="stationaryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2><i class="fas fa-pen"></i> Stationery Shop</h2>
+                <button class="modal-close" onclick="closeModal('stationaryModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="submitOrder(event, 'Stationery')">
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="stat-category" required>
+                            <option value="">Select Category</option>
+                            <option value="Notebooks">Notebooks</option>
+                            <option value="Pens">Pens & Pencils</option>
+                            <option value="Files">Files & Folders</option>
+                            <option value="Art Supplies">Art Supplies</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Item *</label>
+                        <input type="text" id="stat-item" placeholder="Enter item name" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Quantity *</label>
+                            <input type="number" id="stat-qty" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Delivery *</label>
+                            <select id="stat-delivery" required>
+                                <option value="">Select</option>
+                                <option value="Pickup">Pickup</option>
+                                <option value="Hostel">Deliver to Hostel</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact *</label>
+                        <input type="tel" id="stat-contact" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Special Instructions</label>
+                        <textarea id="stat-instructions" placeholder="Any special requirements..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('stationaryModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
